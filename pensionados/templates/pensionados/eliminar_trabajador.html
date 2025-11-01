@@ -1,0 +1,13 @@
+
+{% load static %}
+<h2 class="text-2xl font-bold text-red-600 mb-4">¿Eliminar este trabajador?</h2>
+<p>¿Estás seguro de que deseas eliminar a {{ trabajador.nombre }}?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+    Sí, eliminar
+  </button>
+</form>
+
+<a href="{% url 'trabajadores' %}" class="mt-4 inline-block text-blue-600 hover:underline">&larr; Cancelar</a>

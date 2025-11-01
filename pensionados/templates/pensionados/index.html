@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Inicio - Proveedores y Acreedores</title>
+  <script src="https://cdn.tailwindcss.com "></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <svg class="w-8 h-8 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.826c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+        </svg>
+        <h1 class="text-xl font-semibold">Sistema de Pensionados y Acreedores</h1>
+      </div>
+    </div>
+  </header>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <!-- Main Content -->
+  <main class="flex-grow container mx-auto p-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <aside class="md:col-span-1 bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-bold mb-4">Acceso Rápido</h3>
+        <ul class="space-y-2">
+          <li>
+            <a href="{% url 'pensiones' %}" class="block px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors duration-200">
+              Ir al Módulo de Pensiones
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'trabajadores' %}" class="block px-4 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 transition-colors duration-200">
+              Ir al Módulo de Trabajadores
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <section class="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Bienvenido</h2>
+        <p class="mb-4">
+          Gestiona fácilmente los registros de pensionados desde esta plataforma segura y eficiente.
+        </p>
+        <br>
+        <br>
+        <img src="{% static 'img/LOGOPNG.svg.png' %}" alt="Logo CFE" class="w-full rounded-md">
+        <br>
+        <br>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white mt-auto border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-4 text-center text-sm text-gray-500">
+      &copy; {{ today.year }} Comisión Federal de Electricidad. Todos los derechos reservados.
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pensiones - Proveedores y Acreedores</title>
+  <script src="https://cdn.tailwindcss.com "></script>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <svg class="w-8 h-8 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.826c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+        </svg>
+        <h1 class="text-xl font-semibold">CFE - Sistema de Pensionados</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow container mx-auto p-6">
+    <div class="flex justify-between items-center mb-4">
+      <a href="{% url 'index' %}" class="text-blue-600 hover:underline">&larr; Regresar al inicio</a>
+      <form method="get" class="w-full max-w-md ml-auto">
+        <input type="text" name="q" value="{{ query }}" placeholder="Buscar por acreedor o nombre..." class="w-full px-4 py-2 border rounded-md">
+      </form>
+    </div>
+
+    
+    <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-2xl font-bold mb-4">Agregar Nuevo Pensionado</h2>
+      <form id="registroForm" method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {{ form.acreedor.label_tag }}
+          {{ form.acreedor }}
+          
+          {{ form.nombre.label_tag }}
+          {{ form.nombre }}
+
+          {{ form.banco.label_tag }}
+          {{ form.banco }}
+
+          {{ form.firma_recibo.label_tag }}
+          {{ form.firma_recibo }}
+
+          {{ form.contrato.label_tag }}
+          {{ form.contrato }}
+
+          {{ form.escaneado.label_tag }}
+          {{ form.escaneado }}
+        </div>
+
+        {{ form.observaciones.label_tag }}
+        {{ form.observaciones }}
+
+        <button type="submit" class="mt-4 px-6 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700">
+          Guardar Pensionado
+        </button>
+      </form>
+    </section>
+
+    <section class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold mb-4">Lista de Pensionados</h2>
+      <table class="w-full table-fixed border-collapse">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 border border-gray-300 text-left">Acreedor</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Nombre</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Banco</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Firma de Recibo</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Contrato</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Escaneado</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Observaciones</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in pensionados %}
+          <tr class="{% cycle 'bg-white' 'bg-gray-50' %}">
+            <td class="px-4 py-2 border border-gray-300">{{ p.acreedor }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ p.nombre }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ p.banco }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ p.firma_recibo }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ p.contrato }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ p.escaneado }}</td>
+            <td class="px-4 py-2 border border-gray-300">{{ p.observaciones }}</td>
+            <td class="px-4 py-2 border border-gray-300 text-right space-x-2">
+              <a href="{% url 'editar_pensionado' p.id %}" 
+                 class="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 font-medium rounded-md hover:bg-blue-200 transition-colors duration-200">
+                Editar
+              </a>
+              <br>
+              <br>
+              <button type="button"
+                      onclick="confirmarEliminarPensionado({{ p.id }}, '{{ p.nombre|escapejs }}', '{{ p.acreedor }}')"
+                      class="inline-flex items-center gap-1 px-3 py-1 bg-red-100 text-red-700 font-medium rounded-md hover:bg-red-200 transition-colors duration-200">
+                Delete
+              </button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="text-center px-4 py-4 text-gray-500">No hay resultados.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+    <!-- Modal de registro duplicado -->
+    <div id="duplicateModal" class="modal {% if duplicate_error %}active{% endif %}">
+        <div class="modal-content">
+        <h3 class="text-lg font-bold text-red-600 mb-2">Registro Duplicado</h3>
+        <p>El número de acreedor o el nombre ya están registrados.</p>
+        <button onclick="handleDuplicateClose()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            Cerrar
+        </button>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación de Eliminación -->
+    <div id="eliminarPensionadoModal" class="modal-delete hidden">
+      <div class="modal-delete-content bg-white p-6 rounded-lg shadow-md max-w-md mx-auto my-12">
+        <h3 class="text-xl font-bold text-red-600 mb-4 text-center">Confirmar Eliminación</h3>
+        <p class="mb-6 text-center">
+          ¿Estás seguro de que deseas eliminar a 
+          <strong id="nombre-pensionado"></strong> 
+          con número de acreedor <strong id="acreedor-pensionado"></strong>?
+        </p>
+
+        <div class="flex justify-center space-x-4 mt-6">
+          <!-- Botón Cancelar -->
+          <button onclick="cerrarEliminarPensionado()" type="button"
+                  class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+            Cancelar
+          </button>
+
+          <!-- Formulario de eliminación -->
+          <form id="eliminarPensionadoForm" method="post" action="">
+            {% csrf_token %}
+            <input type="hidden" name="pensionado_id" id="pensionado-id">
+            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+              Eliminar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+        <!-- Modal de error general -->
+    <div id="errorModal" class="modal {% if error and not duplicate_error %}active{% endif %}">
+      <div class="modal-content">
+        <h3 class="text-lg font-bold text-red-600 mb-2">Error</h3>
+        <p>Por favor, completa todos los campos obligatorios antes de continuar.</p>
+        <button onclick="handleDuplicateClose()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Cerrar
+      </button>
+      </div>
+    </div>
+    
+  <!-- Footer -->
+  <footer class="bg-white mt-auto border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-4 text-center text-sm text-gray-500">
+      &copy; {{ today.year }} Comisión Federal de Electricidad. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <script>
+    function confirmarEliminarPensionado(id, nombre, acreedor) {
+      document.getElementById('nombre-pensionado').innerText = nombre;
+      document.getElementById('acreedor-pensionado').innerText = acreedor;
+      const form = document.getElementById('eliminarPensionadoForm');
+      form.action = "{% url 'eliminar_pensionado' 0 %}".replace("0", id);
+      document.getElementById('eliminarPensionadoModal').classList.remove('hidden');
+      document.getElementById('eliminarPensionadoModal').classList.add('active');
+    }
+  
+    function cerrarEliminarPensionado() {
+      document.getElementById('eliminarPensionadoModal').classList.add('hidden');
+      document.getElementById('eliminarPensionadoModal').classList.remove('active');
+    }
+  </script>
+  
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

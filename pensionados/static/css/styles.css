@@ -1,0 +1,257 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Header */
+header {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+header svg {
+  width: 32px;
+  height: 32px;
+}
+
+header h1 {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Main Content */
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+form {
+  margin-bottom: 2rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+thead th {
+  background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Modals */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
+
+.modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-w: sm;
+  text-align: center;
+}
+
+.modal-content h3 {
+  font-size: 1.5rem;
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-content button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #218838;
+}
+
+
+
+
+/* Estilo general para la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 15px;
+  text-align: left;
+  word-break: break-word; /* Permite que el texto se rompa en palabras largas */
+  white-space: normal; /* Permite saltos de línea automáticos */
+}
+
+/* Anchos específicos para columnas */
+td:nth-child(2) { /* Nombre */
+  max-width: 500px; /* Ajusta según necesites */
+}
+td:nth-child(5) { /* Centro */
+  max-width: 500px; /* Ajusta según necesites */
+}
+td:nth-child(9) { /* Comentarios */
+  max-width: 500px; /* Ajusta según necesites */
+}
+td:nth-child(3) { /* Comentarios */
+  max-width: 500px; /* Ajusta según necesites */
+}
+td:nth-child(4) { /* Comentarios */
+  max-width: 500px; /* Ajusta según necesites */
+}
+
+
+
+/*Diseño modal eliminacion*\
+/* Estilos para la modal */
+/* Modal de eliminación */
+.modal-delete {
+  display: none; /* Oculta por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
+
+.modal-delete.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-delete-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  margin: auto;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+
+/* Botones generales */
+.inline-flex {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* Espacio entre icono y texto */
+}
+
+/* Iconos */
+svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Botón Editar */
+a.editar {
+  background-color: #e0f7fa; /* Azul claro */
+  color: #0288d1; /* Azul oscuro */
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+a.editar:hover {
+  background-color: #bbdefb; /* Sombra al pasar el mouse */
+}
+
+/* Botón Eliminar */
+button.eliminar {
+  background-color: #ffebcd; /* Rosa claro */
+  color: #e57373; /* Rojo oscuro */
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+button.eliminar:hover {
+  background-color: #ffe0b2; /* Sombra al pasar el mouse */
+}
