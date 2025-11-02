@@ -118,29 +118,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-# Storage para WhiteNoise
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Vacío porque Django encuentra automáticamente pensionados/static/
+STATICFILES_DIRS = []
+
+# WhiteNoise Storage
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Configuración de archivos estáticos
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = []  # Déjalo vacío
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# Ruta base del proyecto
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# Directorio donde se guardarán los archivos estáticos (usado con collectstatic)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# URLs para archivos estáticos
-STATIC_URL = '/static/'
-
-# Ubicaciones adicionales de archivos estáticos
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'templates', 'static'),
-]
