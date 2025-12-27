@@ -1,0 +1,222 @@
+{% extends 'pensionados/base.html' %}
+{% load static %}
+
+{% block title %}Pensiones - CFE Admin{% endblock %}
+{% block header_title %}Gestión de Pensionados{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+  <!-- Search & Actions Bar -->
+  <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="w-full md:w-96">
+      <form method="get" class="relative">
+        <input type="text" name="q" value="{{ query }}" placeholder="Buscar por acreedor o nombre..."
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cfe-green-600 focus:border-transparent transition-all shadow-sm"
+          style="padding-left: 2.5rem;">
+        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </form>
+    </div>
+  </div>
+
+  <!-- Form Section -->
+  <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <h3 class="text-lg font-bold text-gray-900 mb-6 border-b border-gray-100 pb-4">Registrar Nuevo Pensionado</h3>
+
+    <form id="registroForm" method="post" class="space-y-4">
+      {% csrf_token %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="flex flex-col">
+          {{ form.acreedor.label_tag }}
+          {{ form.acreedor }}
+        </div>
+
+        <div class="flex flex-col">
+          {{ form.nombre.label_tag }}
+          {{ form.nombre }}
+        </div>
+
+        <div class="flex flex-col">
+          {{ form.banco.label_tag }}
+          {{ form.banco }}
+        </div>
+
+        <div class="flex flex-col">
+          {{ form.firma_recibo.label_tag }}
+          {{ form.firma_recibo }}
+        </div>
+
+        <div class="flex flex-col">
+          {{ form.contrato.label_tag }}
+          {{ form.contrato }}
+        </div>
+
+        <div class="flex flex-col">
+          {{ form.escaneado.label_tag }}
+          {{ form.escaneado }}
+        </div>
+      </div>
+
+      <div class="flex flex-col mt-4">
+        {{ form.observaciones.label_tag }}
+        {{ form.observaciones }}
+      </div>
+
+      <div class="flex justify-end pt-4 border-t border-gray-100 mt-6">
+        <button type="submit"
+          class="px-6 py-2 bg-cfe-green-600 text-white font-medium rounded-lg hover:bg-cfe-green-700 shadow-sm flex items-center gap-2">
+          Guardar Pensionado
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- DataGrid Table -->
+  <section class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+    <div class="p-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
+      <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wide">Listado de Pensionados</h3>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="text-sm text-left" style="min-width: 100%; width: max-content;">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="px-4 py-2 font-semibold whitespace-nowrap">Acreedor</th>
+            <th class="px-4 py-2 font-semibold whitespace-nowrap">Nombre</th>
+            <th class="px-4 py-2 font-semibold whitespace-nowrap">Banco</th>
+            <th class="px-4 py-2 font-semibold whitespace-nowrap">Firma Recibo</th>
+            <th class="px-4 py-2 font-semibold whitespace-nowrap">Contrato</th>
+            <th class="px-4 py-2 font-semibold whitespace-nowrap">Escaneado</th>
+            <th class="px-4 py-2 font-semibold whitespace-nowrap">Observaciones</th>
+            <th class="px-4 py-2 font-semibold text-right whitespace-nowrap">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          {% for p in pensionados %}
+          <tr class="bg-white hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap">{{ p.acreedor }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ p.nombre }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ p.banco }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ p.firma_recibo }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ p.contrato }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ p.escaneado }}</td>
+            <td class="px-4 py-2 text-gray-500 whitespace-nowrap">{{ p.observaciones }}</td>
+            <td class="px-4 py-2 text-right whitespace-nowrap">
+              <div class="flex items-center justify-end gap-2">
+                <a href="{% url 'editar_pensionado' p.id %}"
+                  class="text-blue-600 hover:text-blue-900 font-medium text-xs uppercase">Editar</a>
+                <span class="text-gray-300">|</span>
+                <button type="button"
+                  class="btn-eliminar-pensionado text-red-600 hover:text-red-900 font-medium text-xs uppercase"
+                  data-id="{{ p.id }}" data-nombre="{{ p.nombre }}" data-acreedor="{{ p.acreedor }}">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="8" class="text-center py-12 text-gray-500">
+              <div class="flex flex-col items-center justify-center">
+                <svg class="w-10 h-10 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9.172 16.172a4 4 0 115.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p class="text-sm">No se encontraron registros</p>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<!-- Modals -->
+<div id="duplicateModal" class="modal {% if duplicate_error %}active{% endif %}">
+  <div class="modal-content">
+    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+      <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    </div>
+    <h3 class="text-lg font-bold text-gray-900 mb-2">Registro Duplicado</h3>
+    <p class="text-gray-500 mb-6">El número de acreedor o el nombre ya están registrados.</p>
+    <button onclick="handleDuplicateClose()"
+      class="w-full px-4 py-2 bg-gray-100 text-gray-800 font-medium rounded-lg hover:bg-gray-200 transition-colors">Cerrar</button>
+  </div>
+</div>
+
+<div id="eliminarPensionadoModal" class="modal">
+  <div class="modal-content">
+    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+      <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+      </svg>
+    </div>
+    <h3 class="text-lg font-bold text-gray-900 mb-2">Confirmar Eliminación</h3>
+    <p class="text-gray-500 mb-6">¿Estás seguro de que deseas eliminar a <strong id="nombre-pensionado"
+        class="text-gray-900"></strong>?</p>
+    <div class="flex gap-3">
+      <button onclick="cerrarEliminarPensionado()" type="button"
+        class="flex-1 px-4 py-2 bg-gray-100 text-gray-800 font-medium rounded-lg hover:bg-gray-200 transition-colors">Cancelar</button>
+      <form id="eliminarPensionadoForm" method="post" action="" class="flex-1">
+        {% csrf_token %}
+        <input type="hidden" name="pensionado_id" id="pensionado-id">
+        <button type="submit"
+          class="w-full px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors">Eliminar</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="errorModal" class="modal {% if error and not duplicate_error %}active{% endif %}">
+  <div class="modal-content">
+    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+      <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+    <h3 class="text-lg font-bold text-gray-900 mb-2">Error de Validación</h3>
+    <p class="text-gray-500 mb-6">Por favor, completa todos los campos obligatorios.</p>
+    <button onclick="handleDuplicateClose()"
+      class="w-full px-4 py-2 bg-gray-100 text-gray-800 font-medium rounded-lg hover:bg-gray-200 transition-colors">Entendido</button>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Event delegation for delete buttons
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('btn-eliminar-pensionado')) {
+      const id = e.target.dataset.id;
+      const nombre = e.target.dataset.nombre;
+      const acreedor = e.target.dataset.acreedor;
+      confirmarEliminarPensionado(id, nombre, acreedor);
+    }
+  });
+
+  function confirmarEliminarPensionado(id, nombre, acreedor) {
+    document.getElementById('nombre-pensionado').innerText = nombre;
+    const form = document.getElementById('eliminarPensionadoForm');
+    form.action = "{% url 'eliminar_pensionado' 0 %}".replace("0", id);
+    document.getElementById('eliminarPensionadoModal').classList.add('active');
+  }
+
+  function cerrarEliminarPensionado() {
+    document.getElementById('eliminarPensionadoModal').classList.remove('active');
+  }
+
+  function handleDuplicateClose() {
+    document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
+  }
+</script>
+{% endblock %}

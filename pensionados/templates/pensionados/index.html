@@ -1,0 +1,35 @@
+{% extends 'pensionados/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - CFE Admin{% endblock %}
+{% block header_title %}Dashboard General{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center h-full">
+
+  <!-- Welcome Card -->
+  <div
+    class="w-full max-w-4xl bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transform transition-all hover:shadow-xl">
+    <div class="p-8 border-b border-gray-100 text-center">
+      <h3 class="text-2xl font-bold text-gray-900">Bienvenido al Sistema</h3>
+    </div>
+    <div class="p-8">
+      <p class="text-gray-600 mb-8 leading-relaxed text-center text-lg">
+        Gestiona de manera eficiente y segura los registros de pensionados y trabajadores de la Comisión Federal de
+        Electricidad.
+        Esta plataforma está diseñada para optimizar los procesos administrativos.
+      </p>
+      <div class="relative h-96 rounded-lg overflow-hidden group shadow-md">
+        <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent z-10"></div>
+        <img src="{% static 'img/cfe_dashboard_logo.png' %}" alt="CFE Logo"
+          class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+        <div class="absolute bottom-0 left-0 p-8 z-20 w-full text-center">
+          <h4 class="text-white text-3xl font-bold mb-2">Compromiso con la Excelencia</h4>
+          <p class="text-gray-200 text-base">Sistema de Gestión Administrativa</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
